@@ -1,6 +1,6 @@
 # Exemplo de estratégia de testes: importação de chamados
 
-**Estado:** modelo de análise; ainda não executado nem automatizado.
+**Estado:** premissas e casos do exercício documentados; subconjunto automatizado no [laboratório de importação](../laboratorio/importacao_chamados/README.md).
 
 **Data:** 21/10/2026.
 
@@ -28,16 +28,13 @@ Antes de codificar os testes, eu confirmaria essas regras com a pessoa responsá
 | --- | --- | --- |
 | CT-01 | Uma linha válida com ID `T-100`, data `2026-10-21`, categoria `erro` e descrição preenchida. | Um chamado `aberto`; campos preservados. |
 | CT-02 | Reimportar a linha de CT-01. | Nenhum novo chamado; retorno informa duplicidade ou operação idempotente conforme contrato. |
-| CT-03 | Mesmo ID `T-100` em `2026-10-22`. | Novo chamado apenas se o produto confirmar que ID e data identificam ocorrências distintas. |
+| CT-03 | Mesmo ID `T-100` em `2026-10-22`. | No exercício, a chave composta define outra ocorrência; em produto real, confirmar a regra antes de implementá-la. |
 | CT-04 | Descrição vazia. | Linha rejeitada com erro específico; nenhum chamado inválido. |
 | CT-05 | Categoria `financeiro`. | Linha rejeitada como categoria desconhecida. |
-| CT-06 | Arquivo com uma linha válida e outra inválida. | Resultado depende da decisão de negócio sobre atomicidade; registrar essa decisão antes da execução. |
+| CT-06 | Arquivo com uma linha válida e outra inválida. | No exercício, rejeitar o lote inteiro; em produto real, decidir atomicidade com o negócio. |
 
-## O que falta para virar evidência técnica
+## Evidência executável e limites
 
-- Definir contrato de erro e regra de atomicidade com critérios de aceite fechados.
-- Criar CSV sintético versionado e uma API ou implementação de referência.
-- Automatizar os casos e publicar comando de execução, ambiente e resultado.
-- Registrar ao menos um defeito ou limite encontrado e a decisão correspondente.
+Os testes do [laboratório](../laboratorio/importacao_chamados/README.md) exercitam os casos desta matriz, mais cabeçalho incompleto, linha truncada, coluna extra, data inválida, status inicial incorreto e conflito de atualização. Rodam em memória, com CSV sintético no próprio teste e sem dependências externas. O comando e a versão mínima de Python estão no README do laboratório.
 
-Este exercício foi estruturado com assistência de IA como ponto de partida para minha revisão. **A tabela não representa testes executados nem resultados de um projeto profissional.**
+Ainda faltam contrato validado com um produto real, integração com API ou banco de dados, observabilidade e avaliação de dados pessoais em ambiente real. Este exercício foi estruturado com assistência de IA. **Os testes são de um sistema fictício e não representam entregas de um cliente.**

@@ -20,10 +20,14 @@ O estudo dessas fontes **não equivale a experiência profissional ou domínio c
 | --- | --- | --- | --- |
 | 1 | Diagnóstico e mapa de riscos de um assistente fictício | Fluxo, três riscos priorizados e critérios de aceite revisados. | Planejado |
 | 2 | Avaliação de prompts | Dataset sintético, rubrica, comparação A/B e análise de falhas por caso. | Planejado |
-| 3 | Contratos de API e qualidade de dados | Testes executáveis, dados de exemplo e comando de reprodução. | Planejado |
+| 3 | Contratos de API e qualidade de dados | Testes executáveis, dados de exemplo e comando de reprodução. | Em andamento: [laboratório de CSV](../laboratorio/importacao_chamados/README.md) executável; API pendente. |
 | 4 | Recuperação de informação (RAG) | Separar falha de busca, contexto, resposta e citação; registrar resultados. | Planejado |
 | 5 | Agente com ferramentas | Casos de permissão, falha, parada e aprovação humana, com trilha de execução. | Planejado |
 
 ## Regra de atualização
 
 Uma entrega só muda para **concluída** quando eu puder apontar código ou artefato, versão, data, comando de reprodução e resultado observado. Quando um teste falhar ou ficar inconclusivo, registro o fato e a hipótese de causa. Dados e documentos usados em demonstrações públicas serão sintéticos.
+
+## Registro de prática
+
+**21/10/2026 — Qualidade de dados em importação CSV.** Publiquei uma [implementação mínima e testes automatizados](../laboratorio/importacao_chamados/README.md) derivados da matriz de riscos. O exercício cobre validação de campos, reimportação, conflito e atomicidade. Ele não comprova teste de API, integração com banco de dados ou avaliação de IA; essas etapas continuam na trilha.

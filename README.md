@@ -12,6 +12,7 @@ Este repositório é meu portfólio público em evolução. Ele reúne **artefat
 | --- | --- | --- |
 | [Progresso em QA e IA](aprendizado/progresso.md) | Fontes estudadas, experimentos previstos e critérios para registrar resultados. | Estudos documentados. |
 | [Exemplo de estratégia de testes](portfolio/matriz-de-testes.md) | Riscos, regras e casos para um fluxo **fictício** de importação de chamados. | Matriz de testes documentada. |
+| [Laboratório executável](laboratorio/importacao_chamados/README.md) | Implementação mínima e testes de qualidade de dados, idempotência e falha em lote. | Testes automatizados com comando de reprodução. |
 
 ## Base profissional
 
@@ -20,7 +21,7 @@ Este repositório é meu portfólio público em evolução. Ele reúne **artefat
 - Validação de dados, consultas SQL e análise de integrações e processos.
 - Comunicação de riscos, critérios de aceite e resultados de teste.
 
-As ferramentas que usei ao longo da carreira incluem Cypress, Playwright, Selenium e Detox. Neste repositório, **uso público de uma ferramenta só vira evidência técnica quando houver projeto, comando de reprodução e resultado verificável**.
+As ferramentas que usei ao longo da carreira incluem Cypress, Playwright, Selenium e Detox. O laboratório público usa Python e sua biblioteca padrão; cada tecnologia listada como experiência de carreira não implica demonstração dela neste repositório.
 
 ## Como registro progresso
 
