@@ -5,8 +5,11 @@ from datetime import date
 
 def importar_csv(texto, existentes=None):
     linhas = csv.DictReader(io.StringIO(texto))
+    colunas = linhas.fieldnames or []
+    if len(colunas) != len(set(colunas)):
+        raise ValueError("cabecalho com coluna duplicada")
     obrigatorias = {"id_externo", "data", "categoria", "descricao", "status"}
-    ausentes = obrigatorias - set(linhas.fieldnames or [])
+    ausentes = obrigatorias - set(colunas)
     if ausentes:
         raise ValueError(f"cabecalho sem colunas: {', '.join(sorted(ausentes))}")
     resultado = dict(existentes or {})

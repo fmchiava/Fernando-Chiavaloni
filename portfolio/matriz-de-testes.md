@@ -35,6 +35,6 @@ Antes de codificar os testes, eu confirmaria essas regras com a pessoa responsá
 
 ## Evidência executável e limites
 
-Os testes do [laboratório](../laboratorio/importacao_chamados/README.md) exercitam os casos desta matriz, mais cabeçalho incompleto, linha truncada, coluna extra, data inválida, status inicial incorreto e conflito de atualização. Rodam em memória, com CSV sintético no próprio teste e sem dependências externas. O comando e a versão mínima de Python estão no README do laboratório.
+Os testes do [laboratório](../laboratorio/importacao_chamados/README.md) exercitam os casos desta matriz, mais cabeçalho incompleto ou duplicado, linha truncada, coluna extra, data inválida, status inicial incorreto e conflito de atualização. Rodam em memória, com CSV sintético no próprio teste e sem dependências externas. O comando e as versões de Python verificadas estão no README do laboratório.
 
 Ainda faltam contrato validado com um produto real, integração com API ou banco de dados, observabilidade e avaliação de dados pessoais em ambiente real. Este exercício foi estruturado com assistência de IA. **Os testes são de um sistema fictício e não representam entregas de um cliente.**

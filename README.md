@@ -8,11 +8,13 @@ Este repositório é meu portfólio público em evolução. Ele reúne **artefat
 
 ## Onde começar
 
-| Material | O que mostra | Estado em 21/10/2026 |
+| Material | O que mostra | Estado em 22/10/2026 |
 | --- | --- | --- |
 | [Progresso em QA e IA](aprendizado/progresso.md) | Fontes estudadas, experimentos previstos e critérios para registrar resultados. | Estudos documentados. |
 | [Exemplo de estratégia de testes](portfolio/matriz-de-testes.md) | Riscos, regras e casos para um fluxo **fictício** de importação de chamados. | Matriz de testes documentada. |
 | [Laboratório executável](laboratorio/importacao_chamados/README.md) | Implementação mínima e testes de qualidade de dados, idempotência e falha em lote. | Testes automatizados com comando de reprodução. |
+
+**Reproduza o laboratório:** `python -m unittest discover -s laboratorio/importacao_chamados -p 'test_*.py' -v`. Os 15 testes também são executados em [GitHub Actions](https://github.com/fmchiava/Fernando-Chiavaloni/actions/workflows/testes.yml). Consulte o laboratório para regras assumidas e limitações.
 
 ## Base profissional
 
@@ -25,8 +27,8 @@ As ferramentas que usei ao longo da carreira incluem Cypress, Playwright, Seleni
 
 ## Como registro progresso
 
-Para cada experimento, pretendo publicar: **problema → risco → critério de qualidade → dados sintéticos → execução → resultado → limite**. Um estudo de leitura aparece como estudo; um teste planejado aparece como planejado. Métricas, projetos de clientes e funcionalidades não são apresentados como entregues sem evidência adequada.
+Para cada experimento, registro: **problema → risco → critério de qualidade → dados sintéticos → execução → resultado → limite**. Um estudo de leitura aparece como estudo; um teste planejado aparece como planejado. Métricas, projetos de clientes e funcionalidades não são apresentados como entregues sem evidência adequada.
 
-O conteúdo público é revisado para excluir documentos internos, dados pessoais, credenciais e materiais de terceiros. Ferramentas de IA podem apoiar pesquisa e redação; cada artefato informa o que foi executado e o que ainda depende da minha revisão.
+O conteúdo público é revisado para excluir documentos internos, dados pessoais, credenciais e materiais de terceiros. Ferramentas de IA apoiaram a pesquisa, a redação e o laboratório. Os testes verificam o comportamento do código publicado; experiência profissional e autoria manual de cada linha não são inferidas a partir deles.
 
 **Contato:** [perfil no GitHub](https://github.com/fmchiava).
