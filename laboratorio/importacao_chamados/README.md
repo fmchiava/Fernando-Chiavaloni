@@ -4,17 +4,17 @@ Exercício **fictício**, com dados sintéticos, para mostrar testes de contrato
 
 ## Executar
 
-Na raiz do repositório, com Python 3.12 ou superior:
+Na raiz do repositório, com Python 3.12. A CI também verifica a versão estável 3.15:
 
 ```sh
 python -m unittest discover -s laboratorio/importacao_chamados -p 'test_*.py' -v
 ```
 
-Não há dependências externas. Os testes também rodam no GitHub Actions a cada alteração e PR.
+Não há dependências externas. Os testes também rodam no [GitHub Actions](https://github.com/fmchiava/Fernando-Chiavaloni/actions/workflows/testes.yml) a cada push e PR.
 
 ## Contrato assumido
 
-- O CSV exige `id_externo`, `data`, `categoria`, `descricao` e `status`.
+- O CSV exige `id_externo`, `data`, `categoria`, `descricao` e `status`; colunas duplicadas no cabeçalho são rejeitadas.
 - A chave de uma ocorrência é `(id_externo, data)`; reimportação idêntica é idempotente e conteúdo diferente para a mesma chave é conflito.
 - A data deve ser válida e estar em `AAAA-MM-DD`; `categoria` aceita `acesso`, `erro` ou `duvida`; o `status` inicial é `aberto`.
 - Uma linha inválida rejeita o lote inteiro. O dicionário de registros existente não é alterado.

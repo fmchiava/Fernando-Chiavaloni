@@ -1,6 +1,6 @@
 # Progresso em QA e IA
 
-**Atualizado em:** 21/10/2026
+**Atualizado em:** 22/10/2026
 
 **Objetivo:** transformar minha experiência em QA, APIs e dados em avaliações reproduzíveis de aplicações com IA.
 

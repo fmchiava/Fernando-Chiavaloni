@@ -97,6 +97,15 @@ class ImportacaoChamadosTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "cabecalho.*descricao"):
             importar_csv(csv_texto)
 
+    def test_cabecalho_duplicado_nao_oculta_uma_coluna(self):
+        csv_texto = (
+            "id_externo,data,categoria,descricao,status,descricao\n"
+            "T-105,2026-10-21,erro,Falha real,aberto,Outra descricao\n"
+        )
+
+        with self.assertRaisesRegex(ValueError, "cabecalho.*duplicada"):
+            importar_csv(csv_texto)
+
     def test_reimportacao_igual_e_idempotente(self):
         csv_texto = (
             "id_externo,data,categoria,descricao,status\n"
