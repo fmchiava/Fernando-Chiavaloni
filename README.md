@@ -8,12 +8,13 @@ Portfólio de **Quality Engineering e SDET** com casos de automação de testes,
 
 | Case | Engenharia de qualidade | Estado |
 | --- | --- | --- |
+| [E-commerce E2E](cases/e2e-ecommerce-suite/) | Web UI, API REST, contratos Zod, SQLite, segurança, k6 e dossiê QA | **9 execuções Playwright** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/e2e-pipeline.yml) |
 | [Conciliação de sinistros com RPA](cases/rpa-conciliacao-sinistros/) | UI, API REST, CSV, SQLite, exceções, rastreabilidade e arquitetura A360 | **18 testes Python** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/python-tests.yml) |
 | [Testes de API com Playwright](cases/testes-api-playwright/) | Contratos Zod, autenticação, mocks, dados de teste e relatório HTML | **24 testes Playwright** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/api-tests.yml) |
 | [Controle de plataformas elevatórias](cases/controle-plataformas/) | Problema, regras e critérios para iniciar o desenvolvimento | **Em planejamento** |
 | [Importação de chamados](laboratorio/importacao_chamados/) | Idempotência, validação e consistência de dados em lote | **15 testes Python** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/python-tests.yml) |
 
-**Stack demonstrada:** Playwright · TypeScript · Python · pytest · Zod · REST API · GitHub Actions · RPA/A360 (arquitetura proposta) · QA para dados · SQLite.
+**Stack demonstrada:** Playwright · TypeScript · Python · pytest · Zod · REST API · GitHub Actions · k6 · RPA/A360 (arquitetura proposta) · QA para dados · SQLite.
 
 ## Executar
 

@@ -1,0 +1,59 @@
+name: E-commerce E2E Quality Gate
+
+on:
+  push:
+    paths:
+      - 'cases/e2e-ecommerce-suite/**'
+      - '.github/workflows/e2e-pipeline.yml'
+  pull_request:
+    paths:
+      - 'cases/e2e-ecommerce-suite/**'
+      - '.github/workflows/e2e-pipeline.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: cases/e2e-ecommerce-suite
+    steps:
+      - name: Obter código
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Configurar Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: cases/e2e-ecommerce-suite/package-lock.json
+      - name: Instalar dependências do case
+        run: npm ci
+      - name: Instalar navegadores Playwright
+        run: npx playwright install --with-deps chromium firefox webkit
+      - name: Verificar TypeScript
+        run: npm run typecheck
+      - name: Executar UI, API, segurança e SQLite
+        run: npm test
+      - name: Instalar k6
+        uses: grafana/setup-k6-action@e8a4df30dd7db7da61a537ed3c92bdb0220da2ef # v1
+        with:
+          k6-version: '2.2.0'
+      - name: Medir criação de pedidos com k6
+        run: npm run test:performance
+      - name: Publicar evidências HTML e métricas
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-ecommerce-evidence
+          path: |
+            cases/e2e-ecommerce-suite/playwright-report/
+            cases/e2e-ecommerce-suite/test-results/
+            cases/e2e-ecommerce-suite/performance/results/
+          if-no-files-found: warn
+          retention-days: 30
