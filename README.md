@@ -2,7 +2,7 @@
 
 [![Python QA Tests](https://github.com/fmchiava/sdet-portfolio/actions/workflows/python-tests.yml/badge.svg)](https://github.com/fmchiava/sdet-portfolio/actions/workflows/python-tests.yml) [![API Regression Tests](https://github.com/fmchiava/sdet-portfolio/actions/workflows/api-tests.yml/badge.svg)](https://github.com/fmchiava/sdet-portfolio/actions/workflows/api-tests.yml)
 
-Portfólio de **Quality Engineering e SDET** com casos reproduzíveis de automação de testes, qualidade de dados e governança de RPA. Cada case tem escopo, estratégia, código e evidências no próprio diretório.
+Portfólio de **Quality Engineering e SDET** com casos de automação de testes, qualidade de dados e governança de RPA. Os cases executáveis reúnem estratégia, código e evidências no próprio diretório.
 
 ## Cases
 
