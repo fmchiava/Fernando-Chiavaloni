@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: fileURLToPath(new URL('.env', import.meta.url)), quiet: true });
 
 const baseURL = process.env.BASE_URL || 'http://127.0.0.1:4173';
+const port = new URL(baseURL).port || '4173';
 
 export default defineConfig({
   testDir: '.',
@@ -30,6 +31,7 @@ export default defineConfig({
   webServer: {
     command: 'npm run start:server',
     url: `${baseURL}/health`,
+    env: { PORT: port },
     reuseExistingServer: !process.env.CI,
     timeout: 30_000,
   },

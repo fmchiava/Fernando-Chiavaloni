@@ -8,7 +8,7 @@
 2. Criar pedido com o token de Alfa e guardar o ID retornado.
 3. Consultar `GET /pedidos/{id}` com o token de Beta.
 
-**Esperado:** `404`, sem conteúdo do pedido. **Observado durante a falha controlada:** `200`. O Playwright registrou `Expected: 404 / Received: 200` no cenário `IDOR: outro usuário não consegue consultar pedido pelo ID`; comando: `npx playwright test security/auth-security.spec.ts --project=api-security --grep IDOR`; execução em 27/10/2026, Node 24.19.0. O trace foi criado em `test-results/` durante a execução vermelha; esse diretório é gerado e não contém evidência pública permanente.
+**Esperado:** `404`, sem conteúdo do pedido. **Observado durante a falha controlada:** `200`. O Playwright registrou `Expected: 404 / Received: 200` no cenário `IDOR: outro usuário não consegue consultar pedido pelo ID`; comando: `npx playwright test security/auth-security.spec.ts --project=api-security --grep IDOR --reporter=list`; execução em 27/10/2026, Node 24.19.0. [Saída vermelha preservada](../evidence/QA-001-red-sanitized.txt) com apenas o caminho local substituído por `<case>`. O trace foi criado em `test-results/` durante a execução vermelha; esse diretório é gerado e não contém evidência pública permanente.
 
 ## Triagem QA–DEV (simulação do case)
 
@@ -22,6 +22,6 @@ Condição aplicada em `src/utils/mock-server.ts`:
 if (!order || order.owner !== owner) return json(response, 404, { error: 'not_found' });
 ```
 
-Após a correção, `npx playwright test security/auth-security.spec.ts --project=api-security` resultou em **3 passed (3.5s)**: Bearer ausente, IDOR e SQL Injection. O cenário IDOR confirmou `404` para Beta e `200` para Alfa. A regressão completa de Playwright é registrada em [execução](../evidence/execution.md).
+Após a correção, o [reteste isolado preservado](../evidence/QA-001-green-sanitized.txt) registrou **1 passed (3.3s)**. A suíte de segurança também passou com Bearer ausente, IDOR e SQL Injection. O cenário IDOR confirmou `404` para Beta e `200` para Alfa. A regressão completa de Playwright é registrada em [execução](../evidence/execution.md).
 
 **Natureza da evidência:** a falha foi introduzida temporariamente para provar a capacidade de detecção do teste e removida antes da entrega. Não é um incidente de produção nem interação com uma equipe externa real.

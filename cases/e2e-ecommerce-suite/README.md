@@ -50,7 +50,7 @@ npm run test:performance
 
 `npm test` sobe e encerra automaticamente o servidor Playwright. `npm run test:performance` sobe outra instância local, executa a carga e salva `performance/results/summary.html` e `.json`. Para inspecionar o relatório Playwright localmente, use `npm run report`. Um smoke de k6 pode ser executado com `PROFILE=smoke` no ambiente.
 
-O `.env.example` documenta `BASE_URL`, `API_URL`, `DB_PATH`, `TEST_USER` e `TEST_PASS`; o arquivo `.env` é opcional e ignorado pelo Git. As duas contas do mock são `qa.alfa@example.test` e `qa.beta@example.test`, ambas com senha **sintética** `SenhaDeTeste123!`. Os testes não precisam de credenciais reais.
+O `.env.example` documenta `BASE_URL`, `API_URL`, `DB_PATH`, `TEST_USER` e `TEST_PASS`; o arquivo `.env` é opcional e ignorado pelo Git. `BASE_URL` define a UI e a porta do servidor local; `API_URL` define o destino do cliente REST e deve apontar para a mesma instância neste teste E2E. As duas contas do mock são `qa.alfa@example.test` e `qa.beta@example.test`, ambas com senha **sintética** `SenhaDeTeste123!`. Os testes não precisam de credenciais reais.
 
 ## Fluxo QA → DEV → reteste
 

@@ -1,0 +1,11 @@
+[WebServer] (node:10416) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:30356) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [api-security] › security\auth-security.spec.ts:25:1 › IDOR: outro usuário não consegue consultar pedido pelo ID (207ms)
+
+  1 passed (3.3s)
+

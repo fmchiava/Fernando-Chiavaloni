@@ -6,7 +6,8 @@
 | Produtos e preço coerentes | R-03 | `GET /produtos retorna 200` | JSON com `sku-1`, 12.990 centavos |
 | Pedido válido e consulta | R-02, R-03 | `POST /pedidos retorna 201` | Schema Zod, GET 200, `APROVADO` |
 | Pedido inválido recusado | R-03 | `POST /pedidos rejeita quantidade inválida` | HTTP 400, `invalid_order` |
-| Escrita exige Bearer | R-04 | `rotas de carrinho e pedido recusam` | HTTP 401 em ambas |
+| Preço recalculado no servidor | R-02 | `POST /pedidos ignora total adulterado` | 1 centavo enviado; API e SQLite persistem 12.990 |
+| Escrita exige Bearer | R-04 | `rotas de carrinho e pedido recusam` | HTTP 401 em ambas; contagem SQL do pedido de prova inalterada |
 | Titularidade do pedido | R-01 | `IDOR: outro usuário não consegue consultar` | 404 para usuário B, 200 para A |
 | SQL parametrizado | R-05 | `SQL Injection em login e busca` | Login 401, busca vazia, catálogo íntegro |
 | Latência e erros sob carga | R-06 | `order-load-test.js` | k6 HTML/JSON, thresholds verdes |
