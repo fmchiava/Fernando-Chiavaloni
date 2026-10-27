@@ -10,7 +10,7 @@ Na raiz do repositório, com Python 3.12. A CI também verifica a versão estáv
 python -m unittest discover -s laboratorio/importacao_chamados -p 'test_*.py' -v
 ```
 
-Não há dependências externas. Os testes também rodam no [GitHub Actions](https://github.com/fmchiava/Fernando-Chiavaloni/actions/workflows/testes.yml) a cada push e PR.
+Não há dependências externas. Os testes também rodam no [GitHub Actions](https://github.com/fmchiava/portfolio-qa-automacao/actions/workflows/testes.yml) a cada push e PR.
 
 ## Contrato assumido
 
