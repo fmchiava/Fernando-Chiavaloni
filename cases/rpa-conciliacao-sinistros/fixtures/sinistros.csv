@@ -1,0 +1,4 @@
+claim_id,policy_id,amount_cents
+SIN-001,POL-1001,80000
+SIN-002,POL-1002,70000
+SIN-003,POL-1003,120000

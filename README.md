@@ -1,36 +1,42 @@
-# Portfólio de QA e Automação — Fernando Chiavaloni
+# SDET Portfolio — Fernando Chiavaloni
 
-**Qualidade de software · automação de testes · APIs e dados**
+[![Python QA Tests](https://github.com/fmchiava/sdet-portfolio/actions/workflows/python-tests.yml/badge.svg)](https://github.com/fmchiava/sdet-portfolio/actions/workflows/python-tests.yml) [![API Regression Tests](https://github.com/fmchiava/sdet-portfolio/actions/workflows/api-tests.yml/badge.svg)](https://github.com/fmchiava/sdet-portfolio/actions/workflows/api-tests.yml)
 
-Atuo em QA de aplicações web, mobile e APIs, com experiência em automação, análise de regras de negócio e qualidade de dados. Estou aplicando essa base ao teste de sistemas com IA: respostas de LLM, recuperação de informação e agentes que usam ferramentas.
+Portfólio de **Quality Engineering e SDET** com casos reproduzíveis de automação de testes, qualidade de dados e governança de RPA. Cada case tem escopo, estratégia, código e evidências no próprio diretório.
 
-Este repositório é meu portfólio público em evolução. Ele reúne **artefatos selecionados**, com data, escopo e estado da evidência. Meu caderno de estudo no Obsidian permanece privado.
+## Cases
 
-## Onde começar
-
-| Material | O que mostra | Estado |
+| Case | Engenharia de qualidade | Estado |
 | --- | --- | --- |
-| [Progresso em QA e IA](aprendizado/progresso.md) | Fontes estudadas, experimentos previstos e critérios para registrar resultados. | Estudos documentados. |
-| [Exemplo de estratégia de testes](portfolio/matriz-de-testes.md) | Riscos, regras e casos para um fluxo **fictício** de importação de chamados. | Matriz de testes documentada. |
-| [Laboratório executável](laboratorio/importacao_chamados/README.md) | Implementação mínima e testes de qualidade de dados, idempotência e falha em lote. | Testes automatizados com comando de reprodução. |
-| [Case de QA RPA: conciliação de sinistros](https://github.com/fmchiava/qa-rpa-conciliacao-sinistros) | Processo sintético com UI, API REST, CSV, SQLite, exceções técnicas e de negócio, evidências auditáveis e arquitetura proposta em A360. | Simulador Python e testes executáveis; bot A360 e homologação corporativa não implementados. |
-| [Suíte de testes de API](https://github.com/fmchiava/testes-api-playwright) | Contratos Zod, autenticação Bearer, mocks de falhas, CI e experimento de carga; decisões e limites no README. | [Execuções de CI](https://github.com/fmchiava/testes-api-playwright/actions/workflows/api-tests.yml); carga k6 com limite p95 reprovado e documentado. |
+| [Conciliação de sinistros com RPA](cases/rpa-conciliacao-sinistros/) | UI, API REST, CSV, SQLite, exceções, rastreabilidade e arquitetura A360 | **18 testes Python** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/python-tests.yml) |
+| [Testes de API com Playwright](cases/testes-api-playwright/) | Contratos Zod, autenticação, mocks, dados de teste e relatório HTML | **24 testes Playwright** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/api-tests.yml) |
+| [Controle de plataformas elevatórias](cases/controle-plataformas/) | Problema, regras e critérios para iniciar o desenvolvimento | **Em planejamento** |
+| [Importação de chamados](laboratorio/importacao_chamados/) | Idempotência, validação e consistência de dados em lote | **15 testes Python** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/python-tests.yml) |
 
-**Reproduza o laboratório:** `python -m unittest discover -s laboratorio/importacao_chamados -p 'test_*.py' -v`. Os 15 testes também são executados em [GitHub Actions](https://github.com/fmchiava/portfolio-qa-automacao/actions/workflows/testes.yml). Consulte o laboratório para regras assumidas e limitações.
+**Stack demonstrada:** Playwright · TypeScript · Python · pytest · Zod · REST API · GitHub Actions · RPA/A360 (arquitetura proposta) · QA para dados · SQLite.
 
-## Base profissional
+## Executar
 
-- Testes funcionais e regressivos em web, mobile e APIs.
-- Automação de testes e investigação de falhas em colaboração com desenvolvimento e negócio.
-- Validação de dados, consultas SQL e análise de integrações e processos.
-- Comunicação de riscos, critérios de aceite e resultados de teste.
+Pré-requisitos: Python 3.11+ e Node.js 24. Os testes de API usam serviços públicos; os testes Python rodam localmente, sem contas externas.
 
-As ferramentas que usei ao longo da carreira incluem Cypress, Playwright, Selenium e Detox. O laboratório público usa Python e sua biblioteca padrão; cada tecnologia listada como experiência de carreira não implica demonstração dela neste repositório.
+```bash
+git clone https://github.com/fmchiava/sdet-portfolio.git
+cd sdet-portfolio
+python -m pip install -r requirements-test.txt
+python -m pytest -q
+cd cases/testes-api-playwright
+npm ci
+npx playwright install --only-shell chromium
+npm run typecheck
+npm test
+```
 
-## Como registro progresso
+Os testes Python usam `unittest.TestCase`, coletados pelo `pytest` na raiz. Os workflows em [`.github/workflows/`](.github/workflows/) executam as duas suítes e validam as evidências sintéticas do case RPA. Consulte os READMEs dos cases para demonstrar os fluxos completos.
 
-Para cada experimento, registro: **problema → risco → critério de qualidade → dados sintéticos → execução → resultado → limite**. Um estudo de leitura aparece como estudo; um teste planejado aparece como planejado. Métricas, projetos de clientes e funcionalidades não são apresentados como entregues sem evidência adequada.
+## Documentação
 
-O conteúdo público é revisado para excluir documentos internos, dados pessoais, credenciais e materiais de terceiros. Ferramentas de IA apoiaram a pesquisa, a redação e o laboratório. Os testes verificam o comportamento do código publicado; experiência profissional e autoria manual de cada linha não são inferidas a partir deles.
+- [Matriz de testes do laboratório](portfolio/matriz-de-testes.md)
+- [Progresso de aprendizado](aprendizado/progresso.md)
+- [Origem e migração dos cases](docs/migracao.md)
 
-**Contato:** [perfil no GitHub](https://github.com/fmchiava).
+Os cases usam dados sintéticos. O case RPA inclui um simulador executável e um desenho de bot A360; o case de plataformas registra uma proposta ainda sem implementação.

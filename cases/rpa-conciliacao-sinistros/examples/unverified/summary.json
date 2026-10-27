@@ -1,0 +1,18 @@
+{
+  "run_id": "c5b68be1f0e943faa6a9acdc1ee4d92b",
+  "data_classification": "SYNTHETIC",
+  "counts": {
+    "conciliated": 0,
+    "review": 0,
+    "system_error": 1
+  },
+  "gate": "NO_GO",
+  "decisions": [
+    {
+      "claim_id": "SIN-001",
+      "status": "UNVERIFIED",
+      "reason_code": "DECISION_VERIFICATION_UNAVAILABLE",
+      "request_id": "REQ-f44dd59267da978c49b6"
+    }
+  ]
+}

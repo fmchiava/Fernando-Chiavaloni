@@ -1,0 +1,30 @@
+{
+  "run_id": "70c1a99edbfa4efe9ff59744610e1caf",
+  "data_classification": "SYNTHETIC",
+  "counts": {
+    "conciliated": 1,
+    "review": 2,
+    "system_error": 0
+  },
+  "gate": "GO",
+  "decisions": [
+    {
+      "claim_id": "SIN-001",
+      "status": "CONCILIATED",
+      "reason_code": "MATCHED",
+      "request_id": "REQ-f44dd59267da978c49b6"
+    },
+    {
+      "claim_id": "SIN-002",
+      "status": "REVIEW",
+      "reason_code": "AMOUNT_MISMATCH",
+      "request_id": "REQ-5735ad54a39b5ef4fc8d"
+    },
+    {
+      "claim_id": "SIN-003",
+      "status": "REVIEW",
+      "reason_code": "INACTIVE_POLICY",
+      "request_id": "REQ-bb9fc1b7de2065601887"
+    }
+  ]
+}

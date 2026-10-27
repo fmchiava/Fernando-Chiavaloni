@@ -1,0 +1,96 @@
+{
+  "lookup": [
+    {
+      "name": "ID existente",
+      "id": 1,
+      "expectedStatus": 200
+    },
+    {
+      "name": "último ID da coleção",
+      "id": 100,
+      "expectedStatus": 200
+    },
+    {
+      "name": "primeiro ID inexistente",
+      "id": 101,
+      "expectedStatus": 404
+    },
+    {
+      "name": "ID muito acima da coleção",
+      "id": 999999,
+      "expectedStatus": 404
+    }
+  ],
+  "create": [
+    {
+      "name": "payload válido",
+      "payload": {
+        "userId": 1,
+        "title": "Post criado por teste orientado a dados",
+        "body": "Conteúdo válido."
+      },
+      "expectedStatus": 201,
+      "expectedContractValid": true
+    },
+    {
+      "name": "título de um caractere",
+      "payload": {
+        "userId": 1,
+        "title": "A",
+        "body": "Conteúdo válido."
+      },
+      "expectedStatus": 201,
+      "expectedContractValid": true
+    },
+    {
+      "name": "título de 255 caracteres",
+      "payload": {
+        "userId": 1,
+        "title": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "body": "Conteúdo válido."
+      },
+      "expectedStatus": 201,
+      "expectedContractValid": true
+    },
+    {
+      "name": "título de 256 caracteres",
+      "payload": {
+        "userId": 1,
+        "title": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "body": "Conteúdo válido."
+      },
+      "expectedStatus": 201,
+      "expectedContractValid": true
+    },
+    {
+      "name": "título vazio aceito pela API simulada",
+      "payload": {
+        "userId": 1,
+        "title": "",
+        "body": "Conteúdo válido."
+      },
+      "expectedStatus": 201,
+      "expectedContractValid": false
+    },
+    {
+      "name": "tipos incorretos aceitos pela API simulada",
+      "payload": {
+        "userId": "um",
+        "title": 42,
+        "body": "Conteúdo válido."
+      },
+      "expectedStatus": 201,
+      "expectedContractValid": false
+    },
+    {
+      "name": "corpo vazio aceito pela API simulada",
+      "payload": {
+        "userId": 1,
+        "title": "Título válido",
+        "body": ""
+      },
+      "expectedStatus": 201,
+      "expectedContractValid": false
+    }
+  ]
+}

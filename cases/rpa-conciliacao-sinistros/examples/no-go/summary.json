@@ -1,0 +1,17 @@
+{
+  "run_id": "b2a09ab6ba5648bb9ad0888e6b13ac32",
+  "data_classification": "SYNTHETIC",
+  "counts": {
+    "conciliated": 0,
+    "review": 0,
+    "system_error": 1
+  },
+  "gate": "NO_GO",
+  "decisions": [
+    {
+      "claim_id": "SIN-001",
+      "status": "PENDING",
+      "reason_code": "COVERAGE_HTTP_503"
+    }
+  ]
+}

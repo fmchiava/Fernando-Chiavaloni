@@ -1,0 +1,79 @@
+name: API Regression Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: cases/testes-api-playwright
+    env:
+      BASE_URL: ${{ vars.BASE_URL || 'https://jsonplaceholder.typicode.com' }}
+      ENVIRONMENT: ${{ vars.ENVIRONMENT || 'demo' }}
+      AUTH_BASE_URL: ${{ vars.AUTH_BASE_URL || 'https://dummyjson.com' }}
+    steps:
+      - name: Obter código
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Configurar Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: cases/testes-api-playwright/package-lock.json
+      - name: Instalar dependências
+        run: npm ci
+      - name: Instalar Chromium headless
+        run: npx playwright install --with-deps --only-shell chromium
+      - name: Verificar tipos
+        run: npm run typecheck
+      - name: Executar testes de API e mocks
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          AUTH_USERNAME: ${{ secrets.AUTH_USERNAME }}
+          AUTH_PASSWORD: ${{ secrets.AUTH_PASSWORD }}
+        run: npm test
+      - name: Salvar relatório HTML
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-html-report
+          path: cases/testes-api-playwright/playwright-report/
+          if-no-files-found: warn
+          retention-days: 14
+
+  publish-report:
+    name: Publicar relatório no GitHub Pages
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: api-tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Baixar relatório aprovado
+        uses: actions/download-artifact@v7
+        with:
+          name: playwright-html-report
+          path: playwright-report/
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Preparar relatório para publicação
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: playwright-report/
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

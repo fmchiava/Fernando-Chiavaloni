@@ -1,0 +1,16 @@
+{
+  "run_id": "c5b68be1f0e943faa6a9acdc1ee4d92b",
+  "data_classification": "SYNTHETIC",
+  "artifacts": {
+    "events.jsonl": "226c517b0573ddf89dd294aaa5cc197536e0030fd780e8b9856d715bcdc40c7d",
+    "summary.json": "871dd194e2f5eea064ce573b0e5f20871d4bb7b63c6165c9eaec2212e7386ac2",
+    "report.md": "d426db8094f47d964fd98f8c92b790bf3e9de88d76fbc99728e514ad15e4410a"
+  },
+  "input_ledger_sha256": "498a0d0cac7247c1b74dd93d4abfb8910445b5f3f3dde4a11c91af7c35837cb9",
+  "input_claims_sha256": "eef577d8e24b37e16c273cfe8aba4f239e385a4d307776fca5d4f2c7e2a01856",
+  "source_sha256": {
+    "app.py": "803b12c3e1798148a81ba0cc6538813cf3cc6b2f4eb8f014b869173c1b85ecfb",
+    "qa_demo.py": "7160082579a6a49f3822f0f6b398930d39df1b2428c99f0ae47ae59ec27d2ad7"
+  },
+  "hash_algorithm": "SHA-256"
+}
