@@ -24,8 +24,8 @@ Após a inclusão do case, as suítes anteriores foram executadas sem alteraçã
 
 ## Como inspecionar e reproduzir
 
-- O [workflow E-commerce E2E Quality Gate](https://github.com/fmchiava/sdet-portfolio/actions/workflows/e2e-pipeline.yml) publica `playwright-report/`, `test-results/` e `performance/results/` no artefato `e2e-ecommerce-evidence` por 30 dias. A [primeira execução remota](https://github.com/fmchiava/sdet-portfolio/actions/runs/40511942716) passou com a versão inicial de 9 testes; a revisão que acrescentou o décimo teste exige novo gate remoto.
+- O [gate remoto da revisão atual](https://github.com/fmchiava/sdet-portfolio/actions/runs/40559468419) passou no commit `3522a50`: `npm ci`, typecheck, **10 passed (11.5s)** em Playwright e k6 com p95 **11,01 ms**, falhas HTTP **0%**, checks **100%** e **1.478 pedidos concluídos**. O [artefato `e2e-ecommerce-evidence`](https://github.com/fmchiava/sdet-portfolio/actions/runs/40559468419/artifacts/12759201067) contém Playwright HTML e k6 HTML/JSON; o upload registrou três arquivos, 233.582 bytes e retenção de 30 dias. O [workflow](https://github.com/fmchiava/sdet-portfolio/actions/workflows/e2e-pipeline.yml) permite conferir novas execuções.
 - Localmente, `npm ci`, `npx playwright install chromium firefox webkit`, `npm run typecheck`, `npm test` e `npm run test:performance` reproduzem o gate. `npm run report` abre o HTML do Playwright.
 - Os arquivos `.data/`, `test-results/` e `performance/results/` são gerados e ignorados pelo Git. O dossiê estável não inclui tokens. Traces temporários podem registrar credenciais **sintéticas** do mock; nunca execute esta suíte com contas reais ao publicar artefatos.
 
-**Interpretação:** o limiar de carga passou nesta máquina. O resultado não mede um ambiente distribuído nem estabelece SLO de uma loja real; na CI, a mesma regra será avaliada no runner remoto.
+**Interpretação:** o limiar de carga passou localmente e no runner remoto. Os números medem este mock e esses ambientes; não estabelecem SLO de uma loja real.

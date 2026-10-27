@@ -33,10 +33,10 @@
 
 **Interfaces:** `openDatabase(path)`, `getOrderById(db,id)`, `ApiClient.login/products/createOrder/getOrder`, endpoints `/login`, `/produtos`, `/carrinho`, `/pedidos`, `/health`.
 
-- [ ] Criar configuração e teste de API com respostas esperadas 200, 201 e 400.
-- [ ] Instalar dependências, executar o teste e observar falha por servidor/comportamento ausente.
-- [ ] Implementar o mínimo do servidor, contratos, cliente e SQLite.
-- [ ] Executar API, typecheck e conferir contrato e persistência.
+- [x] Criar configuração e teste de API com respostas esperadas 200, 201 e 400.
+- [x] Instalar dependências, executar o teste e observar falha por servidor/comportamento ausente.
+- [x] Implementar o mínimo do servidor, contratos, cliente e SQLite.
+- [x] Executar API, typecheck e conferir contrato e persistência.
 
 ### Task 2: Fluxo UI e persistência
 
@@ -44,25 +44,25 @@
 
 **Interfaces:** `LoginPage.signIn`, `CatalogPage.addProduct/goToCheckout`, `CheckoutPage.placeOrder`, `getOrderById`.
 
-- [ ] Criar teste de compra que verifica UI, API e SQL com valor literal de referência.
-- [ ] Executar o teste e observar falha pela UI ausente.
-- [ ] Implementar as três páginas locais e Page Objects mínimos.
-- [ ] Executar os três navegadores e verificar independência dos pedidos.
+- [x] Criar teste de compra que verifica UI, API e SQL com valor literal de referência.
+- [x] Executar o teste e observar falha pela UI ausente.
+- [x] Implementar as três páginas locais e Page Objects mínimos.
+- [x] Executar os três navegadores e verificar independência dos pedidos.
 
 ### Task 3: Segurança e performance
 
 **Files:** `security/auth-security.spec.ts`, `performance/scenarios/order-load-test.js`, `performance/config/README.md`, `src/utils/mock-server.ts`.
 
-- [ ] Criar testes de Bearer ausente, IDOR e SQL Injection; observar falhas relevantes.
-- [ ] Corrigir o comportamento demonstrado pelos testes e registrar ciclo de defeito real.
-- [ ] Criar script k6 com rampa/thresholds pedidos; instalar k6 quando houver script executável.
-- [ ] Rodar k6 localmente e guardar métricas reais sem tokens.
+- [x] Criar testes de Bearer ausente, IDOR e SQL Injection; observar falhas relevantes.
+- [x] Corrigir o comportamento demonstrado pelos testes e registrar ciclo de defeito real.
+- [x] Criar script k6 com rampa/thresholds pedidos; instalar k6 quando houver script executável.
+- [x] Rodar k6 localmente e guardar métricas reais sem tokens.
 
 ### Task 4: CI e documentação profissional
 
 **Files:** `.github/workflows/e2e-pipeline.yml`, `cases/e2e-ecommerce-suite/README.md`, `docs/qa/*`, `README.md` da raiz.
 
-- [ ] Adicionar workflow de instalação, typecheck, Playwright, k6 e upload de evidências.
-- [ ] Documentar plano, riscos, matriz, critérios, resultado e fluxo QA–DEV/defeito/reteste.
-- [ ] Rodar `npm ci`, typecheck, `npx playwright test` e k6 com resultado completo.
-- [ ] Verificar artefatos, revisar diff e publicar branch/PR para inspeção da CI.
+- [x] Adicionar workflow de instalação, typecheck, Playwright, k6 e upload de evidências.
+- [x] Documentar plano, riscos, matriz, critérios, resultado e fluxo QA–DEV/defeito/reteste.
+- [x] Rodar `npm ci`, typecheck, `npx playwright test` e k6 com resultado completo.
+- [x] Verificar artefatos, revisar diff e publicar branch/PR para inspeção da CI.

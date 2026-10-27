@@ -8,7 +8,7 @@ Running 1 test using 1 worker
   x  1 [api-security] › security\auth-security.spec.ts:25:1 › IDOR: outro usuário não consegue consultar pedido pelo ID (226ms)
 
 
-  1) [api-security] › security\auth-security.spec.ts:25:1 › IDOR: outro usuário não consegue consultar pedido pelo ID 
+  1) [api-security] › security\auth-security.spec.ts:25:1 › IDOR: outro usuário não consegue consultar pedido pelo ID
 
     Error: expect(received).toBe(expected) // Object.is equality
 
@@ -35,5 +35,4 @@ Running 1 test using 1 worker
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
   1 failed
-    [api-security] › security\auth-security.spec.ts:25:1 › IDOR: outro usuário não consegue consultar pedido pelo ID 
-
+    [api-security] › security\auth-security.spec.ts:25:1 › IDOR: outro usuário não consegue consultar pedido pelo ID
