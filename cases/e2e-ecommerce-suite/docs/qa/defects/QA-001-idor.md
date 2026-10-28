@@ -1,27 +1,37 @@
-# QA-001 — Acesso cruzado a pedido por ID
+# QA-001 — Consulta de pedido de outro cliente por ID
 
-**Tipo:** defeito de autorização, demonstrado por injeção controlada de falha neste case. **Severidade simulada:** alta, pois um cliente poderia ler o pedido de outro. **Estado:** corrigido e retestado localmente.
+| Campo | Registro |
+| --- | --- |
+| Tipo e estado | Defeito de autorização **demonstrado por mutação controlada**; corrigido e retestado |
+| Regra e risco | REQ-05; R-01; BDD-06 |
+| Severidade / prioridade | S2 alta / P1, classificações simuladas para o case |
+| Ambiente | Mock local, duas contas `.test`, Node 24.19.0, Playwright 1.64.1, 27/10/2026 |
+| Comando | `npx playwright test security/auth-security.spec.ts --project=api-security --grep IDOR --reporter=list` |
+| Frequência | Reproduzido uma vez na mutação controlada; reteste isolado passou |
 
-## Reprodução e evidência
+## Pré-condição e passos mínimos
 
-1. Autenticar `qa.alfa@example.test` e `qa.beta@example.test`.
-2. Criar pedido com o token de Alfa e guardar o ID retornado.
-3. Consultar `GET /pedidos/{id}` com o token de Beta.
+1. Iniciar o mock com Alfa e Beta e autenticar as duas contas.
+2. Criar um pedido com o Bearer de Alfa; guardar o ID retornado.
+3. Solicitar `GET /pedidos/{id}` com o Bearer de Beta.
+4. Consultar o mesmo ID com o Bearer de Alfa como controle positivo.
 
-**Esperado:** `404`, sem conteúdo do pedido. **Observado durante a falha controlada:** `200`. O Playwright registrou `Expected: 404 / Received: 200` no cenário `IDOR: outro usuário não consegue consultar pedido pelo ID`; comando: `npx playwright test security/auth-security.spec.ts --project=api-security --grep IDOR --reporter=list`; execução em 27/10/2026, Node 24.19.0. [Saída vermelha preservada](../evidence/QA-001-red-sanitized.txt) com apenas o caminho local substituído por `<case>`. O trace foi criado em `test-results/` durante a execução vermelha; esse diretório é gerado e não contém evidência pública permanente.
+**Esperado:** Beta recebe 404 sem detalhes do pedido; Alfa recebe 200. **Observado durante a falha controlada:** Beta recebeu 200. O teste registrou `Expected: 404 / Received: 200` na [saída vermelha sanitizada](../evidence/QA-001-red-sanitized.txt). O caminho absoluto da máquina foi substituído por `<case>`; a saída original continha apenas dados sintéticos. Um trace foi gerado em `test-results/` nessa execução e não foi preservado no Git.
 
-## Triagem QA–DEV (simulação do case)
+## Análise de causa e interação QA–DEV
 
-**QA:** classificou a falha como acesso horizontal indevido; entregou passos, contas, ID do pedido e diferença 404/200. **DEV (papel simulado):** verificou que `GET /pedidos/{id}` buscava o registro pelo ID sem comparar `order.owner` com o usuário associado ao Bearer. **Solução sugerida:** aplicar a checagem de titularidade no servidor e retornar 404 para pedido inexistente ou de outro usuário, evitando revelar sua existência.
+Na demonstração, a checagem de titularidade em `GET /pedidos/{id}` foi removida temporariamente. O servidor ainda reconhecia um Bearer válido, mas devolvia o registro localizado pelo ID sem comparar `order.owner` à identidade autenticada. O risco é **acesso horizontal indevido**: autenticação, sozinha, não autoriza ler o pedido de outra pessoa.
 
-## Correção e reteste
+**QA (papel simulado):** trouxe dois usuários, ID, resposta 200 indevida e critério 404. **DEV (papel simulado):** localizou a comparação ausente e restaurou a regra no servidor. A conversa descreve a triagem técnica do exercício; não representa comunicação com uma equipe externa.
 
-Condição aplicada em `src/utils/mock-server.ts`:
+## Correção, reteste e decisão
+
+O código entregue em [`mock-server.ts`](../../../src/utils/mock-server.ts) devolve 404 quando o pedido inexiste ou o titular difere:
 
 ```ts
 if (!order || order.owner !== owner) return json(response, 404, { error: 'not_found' });
 ```
 
-Após a correção, o [reteste isolado preservado](../evidence/QA-001-green-sanitized.txt) registrou **1 passed (3.3s)**. A suíte de segurança também passou com Bearer ausente, IDOR e SQL Injection. O cenário IDOR confirmou `404` para Beta e `200` para Alfa. A regressão completa de Playwright é registrada em [execução](../evidence/execution.md).
+A mutação e sua restauração foram locais; **não existe um commit separado de “correção DEV”** para a falha injetada. A versão integrada ao `master` no merge `041c4c3` contém a checagem. O [reteste isolado](../evidence/QA-001-green-sanitized.txt) registrou **1 passed (3.3s)**; o teste verifica 404 para Beta e 200 para Alfa. A [regressão completa](../evidence/execution.md) passou nas 10 execuções Playwright, inclusive na CI do `master`.
 
-**Natureza da evidência:** a falha foi introduzida temporariamente para provar a capacidade de detecção do teste e removida antes da entrega. Não é um incidente de produção nem interação com uma equipe externa real.
+**Parecer do QA neste experimento:** defeito controlado encerrado após reteste e regressão. Isso comprova a sensibilidade do cenário a essa remoção específica de autorização; não é um incidente de produção nem uma prova de cobertura universal contra IDOR. A [política de TDD](../tdd.md) distingue a demonstração Red/Green da história de desenvolvimento.
