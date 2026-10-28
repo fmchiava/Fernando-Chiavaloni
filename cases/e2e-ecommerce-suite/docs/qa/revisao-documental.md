@@ -42,3 +42,19 @@ O verificador automatiza estrutura e links, **não** faz interpretação semânt
 ## Decisão de publicação
 
 **Pendente de apresentação ao proprietário do portfólio.** A documentação permanece apenas na branch local nesta etapa. Depois da revisão do usuário, uma publicação remota exigirá novo gate de CI sobre o commit publicado.
+
+## Complemento: descoberta e decisões (27/10/2026)
+
+Após esta revisão, foi incluída uma [trilha de descoberta](../discovery/README.md) com fontes, hipóteses, levantamento, análise retrospectiva de alternativas, backlog e seis ADRs. A nova trilha classifica cada afirmação como observada, reconstruída, hipótese ou proposta. Nenhuma entrevista, workshop ou aprovação foi atribuída a stakeholders reais. Os IDs REQ/NFR permanecem definidos em [contexto e requisitos](contexto-e-requisitos.md), evitando duas fontes normativas divergentes.
+
+O verificador documental passou a inspecionar todos os Markdown de `docs/`, inclusive os ADRs. Os números de 19 arquivos acima pertencem à revisão anterior.
+
+| Checagem desta ampliação | Resultado local em 27/10/2026 |
+| --- | --- |
+| `npm run docs:check` | Exit 0; 31 arquivos Markdown, 8 cenários BDD e links locais verificados. A primeira passagem encontrou dois links inexistentes nos ADRs; ambos foram corrigidos antes da passagem verde. |
+| `npm run typecheck` | Exit 0. |
+| `npm test` | **10 passed (12,8s)** em API, segurança, Chromium, Firefox e WebKit. |
+| Revisão factual | Rotas, valores, dados, configurações e limites confrontados com servidor, banco, schemas, testes e k6. |
+| Busca de segredos nos arquivos de descoberta | Nenhum token, caminho pessoal ou senha de teste copiada para a nova trilha. |
+
+Não foi repetido o perfil completo de k6 nesta ampliação, pois a implementação e o cenário de carga não mudaram; a execução anterior continua identificada acima. O estado continua **local para apresentação**.

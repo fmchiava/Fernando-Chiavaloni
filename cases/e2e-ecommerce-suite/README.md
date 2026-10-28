@@ -6,11 +6,12 @@ Este case mostra a avaliação de qualidade de uma jornada de compra com **Web U
 
 ## Por onde começar
 
-1. [Contexto, processo e requisitos](docs/qa/contexto-e-requisitos.md): o que “pedido aprovado” significa neste alvo.
-2. [Dossiê de QA](docs/qa/README.md): roteiro completo de estratégia, riscos, [BDD](docs/qa/bdd/README.md), [TDD](docs/qa/tdd.md), pré-requisitos e rastreabilidade.
-3. [QA-001: IDOR controlado](docs/qa/defects/QA-001-idor.md): falha, causa, correção e reteste com [saídas sanitizadas](docs/qa/evidence/README.md).
-4. [Execução observada](docs/qa/evidence/execution.md) e [parecer Go/No-Go](docs/qa/release-decision.md).
-5. [CI no `master`](https://github.com/fmchiava/sdet-portfolio/actions/runs/40561541646) e [artefato HTML/JSON](https://github.com/fmchiava/sdet-portfolio/actions/runs/40561541646/artifacts/12760268314).
+1. [Descoberta e refinamento](docs/discovery/README.md): problema, levantamento, brainstorm, backlog e [decisões justificadas](docs/discovery/decisions/README.md).
+2. [Contexto, processo e requisitos](docs/qa/contexto-e-requisitos.md): o que “pedido aprovado” significa neste alvo.
+3. [Dossiê de QA](docs/qa/README.md): roteiro completo de estratégia, riscos, [BDD](docs/qa/bdd/README.md), [TDD](docs/qa/tdd.md), pré-requisitos e rastreabilidade.
+4. [QA-001: IDOR controlado](docs/qa/defects/QA-001-idor.md): falha, causa, correção e reteste com [saídas sanitizadas](docs/qa/evidence/README.md).
+5. [Execução observada](docs/qa/evidence/execution.md) e [parecer Go/No-Go](docs/qa/release-decision.md).
+6. [CI no `master`](https://github.com/fmchiava/sdet-portfolio/actions/runs/40561541646) e [artefato HTML/JSON](https://github.com/fmchiava/sdet-portfolio/actions/runs/40561541646/artifacts/12760268314).
 
 ## Cobertura executável
 

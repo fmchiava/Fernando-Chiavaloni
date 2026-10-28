@@ -6,6 +6,7 @@ Este índice organiza o material como uma revisão de qualidade. O sistema de ap
 
 | Tempo | Leia | O que deve conseguir avaliar |
 | --- | --- | --- |
+| 4 min | [Descoberta e refinamento](../discovery/README.md) | Problema, hipóteses, alternativas, backlog e motivos das decisões |
 | 2 min | [Contexto e requisitos](contexto-e-requisitos.md) | Processo, regras observáveis, fronteiras e significado de “pedido aprovado” |
 | 3 min | [Arquitetura](arquitetura.md), [dados e oráculos](dados-e-oraculos.md) e [pré-requisitos](pre-requisitos.md) | Fluxo UI/API/SQLite/k6, massa e reprodução sem contas externas |
 | 4 min | [BDD](bdd/README.md), [TDD](tdd.md) e [rastreabilidade](traceability.md) | Linguagem de negócio, ciclo de teste e relação com testes reais |
@@ -18,6 +19,7 @@ Este índice organiza o material como uma revisão de qualidade. O sistema de ap
 - **Especificação:** arquivos `.feature` em `bdd/`. Eles descrevem comportamento em Gherkin e **não** são executados por Cucumber neste repositório; a matriz liga cada cenário à automação disponível.
 - **Evidência preservada:** saídas sanitizadas do QA-001, resumo local k6 e links para as execuções do GitHub Actions. Relatórios completos da CI têm retenção configurada de 30 dias.
 - **Simulação declarada:** a conversa QA–DEV do defeito é um exercício de portfólio. As saídas de teste referidas como observadas foram efetivamente produzidas.
+- **Análise retrospectiva:** a trilha de [descoberta](../discovery/README.md) reconstrói motivos e opções a partir da implementação; não registra entrevistas ou aprovações históricas.
 
 ## Convenções de leitura
 

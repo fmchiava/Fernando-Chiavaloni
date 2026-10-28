@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 const caseRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const repoRoot = resolve(caseRoot, '../..');
 const qaRoot = join(caseRoot, 'docs/qa');
+const docsRoot = join(caseRoot, 'docs');
 
 function filesUnder(directory, suffix) {
   return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
@@ -18,7 +19,7 @@ const markdownFiles = [
   join(repoRoot, 'README.md'),
   join(caseRoot, 'README.md'),
   join(caseRoot, 'performance/config/README.md'),
-  ...filesUnder(qaRoot, '.md'),
+  ...filesUnder(docsRoot, '.md'),
 ];
 
 for (const file of markdownFiles) {
