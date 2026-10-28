@@ -10,6 +10,7 @@
     "test:api": "playwright test src/tests/api-contracts.spec.ts",
     "test:security": "playwright test security/auth-security.spec.ts",
     "test:performance": "node performance/config/run-performance.mjs",
+    "docs:check": "node scripts/check-docs.mjs",
     "typecheck": "tsc --noEmit",
     "report": "playwright show-report"
   },

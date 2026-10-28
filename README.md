@@ -1,6 +1,6 @@
 # SDET Portfolio — Fernando Chiavaloni
 
-[![Python QA Tests](https://github.com/fmchiava/sdet-portfolio/actions/workflows/python-tests.yml/badge.svg)](https://github.com/fmchiava/sdet-portfolio/actions/workflows/python-tests.yml) [![API Regression Tests](https://github.com/fmchiava/sdet-portfolio/actions/workflows/api-tests.yml/badge.svg)](https://github.com/fmchiava/sdet-portfolio/actions/workflows/api-tests.yml)
+[![Python QA Tests](https://github.com/fmchiava/sdet-portfolio/actions/workflows/python-tests.yml/badge.svg)](https://github.com/fmchiava/sdet-portfolio/actions/workflows/python-tests.yml) [![API Regression Tests](https://github.com/fmchiava/sdet-portfolio/actions/workflows/api-tests.yml/badge.svg)](https://github.com/fmchiava/sdet-portfolio/actions/workflows/api-tests.yml) [![E-commerce E2E Quality Gate](https://github.com/fmchiava/sdet-portfolio/actions/workflows/e2e-pipeline.yml/badge.svg)](https://github.com/fmchiava/sdet-portfolio/actions/workflows/e2e-pipeline.yml)
 
 Portfólio de **Quality Engineering e SDET** com casos de automação de testes, qualidade de dados e governança de RPA. Os cases executáveis reúnem estratégia, código e evidências no próprio diretório.
 
@@ -8,7 +8,7 @@ Portfólio de **Quality Engineering e SDET** com casos de automação de testes,
 
 | Case | Engenharia de qualidade | Estado |
 | --- | --- | --- |
-| [E-commerce E2E](cases/e2e-ecommerce-suite/) | Web UI, API REST, contratos Zod, SQLite, segurança, k6 e dossiê QA | **10 execuções Playwright** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/e2e-pipeline.yml) |
+| [E-commerce E2E](cases/e2e-ecommerce-suite/) | Web UI, API REST, contratos Zod, SQLite, segurança, k6, [descoberta e decisões](cases/e2e-ecommerce-suite/docs/discovery/README.md), BDD/TDD e [dossiê QA](cases/e2e-ecommerce-suite/docs/qa/README.md) | **10 execuções Playwright** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/e2e-pipeline.yml) |
 | [Conciliação de sinistros com RPA](cases/rpa-conciliacao-sinistros/) | UI, API REST, CSV, SQLite, exceções, rastreabilidade e arquitetura A360 | **18 testes Python** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/python-tests.yml) |
 | [Testes de API com Playwright](cases/testes-api-playwright/) | Contratos Zod, autenticação, mocks, dados de teste e relatório HTML | **24 testes Playwright** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/api-tests.yml) |
 | [Controle de plataformas elevatórias](cases/controle-plataformas/) | Problema, regras e critérios para iniciar o desenvolvimento | **Em planejamento** |
@@ -18,7 +18,7 @@ Portfólio de **Quality Engineering e SDET** com casos de automação de testes,
 
 ## Executar
 
-Pré-requisitos: Python 3.11+ e Node.js 24. Os testes de API usam serviços públicos; os testes Python rodam localmente, sem contas externas.
+Pré-requisitos variam por case: Python 3.11+ para a regressão Python; Node.js 24 para Playwright; k6 para o perfil de carga do e-commerce. O case E-commerce usa somente um mock local; o case anterior de API usa serviços públicos. Cada README informa portas, massa e comandos.
 
 ```bash
 git clone https://github.com/fmchiava/sdet-portfolio.git
@@ -32,11 +32,13 @@ npm run typecheck
 npm test
 ```
 
-Os testes Python usam `unittest.TestCase`, coletados pelo `pytest` na raiz. Os workflows em [`.github/workflows/`](.github/workflows/) executam as duas suítes e validam as evidências sintéticas do case RPA. Consulte os READMEs dos cases para demonstrar os fluxos completos.
+Os testes Python usam `unittest.TestCase`, coletados pelo `pytest` na raiz. Os [workflows](.github/workflows/) executam Python, API Playwright e E-commerce E2E, além de validar evidências sintéticas do case RPA. O [guia do E-commerce](cases/e2e-ecommerce-suite/docs/qa/pre-requisitos.md) explica a reprodução do novo case.
 
 ## Documentação
 
 - [Matriz de testes do laboratório](portfolio/matriz-de-testes.md)
+- [Dossiê de QA do E-commerce E2E](cases/e2e-ecommerce-suite/docs/qa/README.md)
+- [Descoberta, refinamento e ADRs do E-commerce E2E](cases/e2e-ecommerce-suite/docs/discovery/README.md)
 - [Progresso de aprendizado](aprendizado/progresso.md)
 - [Origem e migração dos cases](docs/migracao.md)
 

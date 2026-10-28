@@ -1,13 +1,22 @@
-# Parecer técnico de qualidade — gate do case
+# Parecer técnico de qualidade — versão integrada
 
-**Data:** 27/10/2026. **Escopo:** e-commerce local sintético de demonstração, não um serviço de produção.
+**Data:** 27/10/2026. **Versão avaliada:** `master` no merge `041c4c3`. **Decisão:** **Go para apresentar este case sintético no portfólio**. Não se trata de autorização para operar uma loja real. Este parecer é um snapshot da versão funcional; a [revisão documental](revisao-documental.md) registra a validação dos textos acrescentados depois.
 
-| Critério | Estado | Evidência |
+| Critério de saída definido na estratégia | Resultado | Base da decisão |
 | --- | --- | --- |
-| TypeScript sem erros | Aprovado | `npm run typecheck`, exit 0 |
-| API, segurança, UI e banco | Aprovado localmente | 10/10 execuções Playwright; [relatório](evidence/execution.md) |
-| QA-001 corrigido e retestado | Aprovado | [defeito e regressão](defects/QA-001-idor.md) |
-| Carga k6 p95 < 500 ms, erro < 1% | Aprovado localmente | 73,77 ms; 0%; [resumo](evidence/local-performance/summary.json) |
-| Mesmo gate na CI e artefato | Aprovado | [Execução da revisão atual](https://github.com/fmchiava/sdet-portfolio/actions/runs/40559468419): 10/10 Playwright; k6 p95 11,01 ms, erro 0%, checks 100%; [artefato HTML/JSON](https://github.com/fmchiava/sdet-portfolio/actions/runs/40559468419/artifacts/12759201067) |
+| Typecheck sem erros | Aprovado | Execução local pós-merge e [gate remoto](https://github.com/fmchiava/sdet-portfolio/actions/runs/40561541646) |
+| UI, API, segurança e SQLite | Aprovado no escopo automatizado | 10/10 Playwright local e remoto; três navegadores na UI |
+| Autorização do pedido e QA-001 | Aprovado para o cenário testado | [Vermelho/verde](defects/QA-001-idor.md), 404 para Beta e 200 para Alfa |
+| k6 p95 < 500 ms, falha HTTP < 1%, checks > 99% | Aprovado | Local 73,77 ms/0%/100%; CI 13,81 ms/0%/100%; [métricas](evidence/execution.md) |
+| Evidência recuperável | Aprovado | [Artefato remoto](https://github.com/fmchiava/sdet-portfolio/actions/runs/40561541646/artifacts/12760268314) e [resumo estável](evidence/README.md) |
+| Regressão do monorepo | Aprovado | [Python](https://github.com/fmchiava/sdet-portfolio/actions/runs/40561541748) e [API anterior](https://github.com/fmchiava/sdet-portfolio/actions/runs/40561542013) verdes no merge |
 
-**Decisão atual: Go para publicação deste case de portfólio.** O commit `3522a50` passou nos gates locais e remotos, com artefato auditável publicado. Sem defeitos altos abertos no escopo testado. A decisão vale para o mock e os requisitos definidos neste estudo; o desempenho de outro ambiente deve ser medido novamente.
+## Riscos residuais e decisão de tratamento
+
+Não há defeito S1/S2 **aberto dentro dos cenários executados**. A [matriz](traceability.md) registra cobertura parcial para limites superiores de quantidade, GET sem token/ID inexistente e carrinho válido sem escrita em `orders`. Expiração de sessão, rate limiting, TLS, pagamentos e infraestrutura distribuída estão fora do escopo. A UI usa ponto decimal em `R$ 129.90`; a apresentação `pt-BR` fica como melhoria futura. Essas lacunas não são descritas como testes aprovados e exigiriam critérios próprios antes de qualquer uso fora deste mock.
+
+## Condição de No-Go para próxima revisão
+
+Reabrir o parecer se uma mudança no código, massa ou workflow derrubar qualquer gate, se um retry ocultar falha intermitente relevante, se o artefato não for publicado ou se um defeito alto surgir. Uma nova versão precisa de novo run e novo registro de decisão; este documento é um **snapshot**, não uma aprovação permanente.
+
+**Responsabilidade no case:** parecer elaborado pelo papel de QA do estudo. Não há aceite de negócio real nem equipe de aprovação externa. A [execução](evidence/execution.md) contém os dados que sustentam a decisão.

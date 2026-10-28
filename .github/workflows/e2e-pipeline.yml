@@ -34,6 +34,8 @@ jobs:
           cache-dependency-path: cases/e2e-ecommerce-suite/package-lock.json
       - name: Instalar dependências do case
         run: npm ci
+      - name: Validar documentação e rastreabilidade BDD
+        run: npm run docs:check
       - name: Instalar navegadores Playwright
         run: npx playwright install --with-deps chromium firefox webkit
       - name: Verificar TypeScript

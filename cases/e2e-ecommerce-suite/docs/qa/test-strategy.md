@@ -1,38 +1,56 @@
-# Plano de QA e estratégia de testes
+# Estratégia de testes e governança do gate
 
-## Missão e critérios
+## Objetivo da qualidade
 
-Verificar que um cliente autenticado consegue comprar um produto, recebe confirmação coerente na UI/API e encontra o pedido correto no SQLite. O gate também precisa impedir acesso cruzado a pedidos, requisições sem Bearer e consultas alteradas por entrada maliciosa. Sob a carga local definida, p95 deve ficar abaixo de 500 ms e a taxa de falhas HTTP abaixo de 1%.
+Demonstrar que a loja sintética preserva a identidade e o valor de um pedido do início ao fim. A confirmação na UI, a consulta REST e a linha no SQLite devem concordar. O QA também desafia as fronteiras de autorização, validação de entrada e comportamento sob a carga definida. A [regra de negócio](contexto-e-requisitos.md) é a referência do oráculo; um status HTTP verde isolado não é evidência suficiente.
 
-**Escopo:** UI de login/catálogo/checkout, contratos HTTP e Zod, SQLite, segurança de autenticação/autorização/consulta, k6 e CI. **Fora do escopo:** pagamento real, antifraude, provedores externos, escalabilidade distribuída e testes em dispositivos móveis físicos.
+## Abordagem por risco
 
-## Matriz de riscos
+Impacto e probabilidade são estimativas **qualitativas para este mock**, de 1 (baixo) a 3 (alto). A prioridade usa o produto dos dois valores para ordenar o trabalho, sem fingir precisão estatística. Um risco alto aberto bloqueia o parecer Go mesmo que a média dos testes esteja verde.
 
-| ID | Risco | Impacto | Probabilidade | Controle e evidência |
+| Risco | Falha possível | Impacto × prob. | Controle executado | Lacuna ou observação |
 | --- | --- | --- | --- | --- |
-| R-01 | Pedido de outro cliente acessível por ID | Alto | Média | Teste IDOR com duas contas; resposta 404 ao segundo usuário |
-| R-02 | UI confirma compra sem persistência ou com valor errado | Alto | Média | Fluxo UI → GET API → consulta SQL; total literal de 12.990 centavos |
-| R-03 | Alteração de contrato sem quebra de status HTTP | Médio | Média | Parse Zod do pedido criado e consultado |
-| R-04 | Ausência de Bearer aceita escrita | Alto | Média | POST no carrinho e pedido sem token deve retornar 401 |
-| R-05 | Campo de busca/login altera consulta SQL | Alto | Baixa | Entradas com aspas/SQL; consultas parametrizadas; catálogo íntegro |
-| R-06 | Concorrência degrada ou falha na criação | Médio | Média | k6 com 50 VUs e thresholds; banco de performance separado |
-| R-07 | Diferença entre navegadores quebra checkout | Médio | Média | Mesmo E2E em Chromium, Firefox e WebKit |
-| R-08 | CI não reproduz ambiente local | Médio | Média | `npm ci`, Node 24, navegadores e k6 instalados no workflow |
+| R-01 | Cliente B lê pedido de A pelo ID | 3 × 2 = 6 | Duas contas, GET cruzado 404 e GET do titular 200 | Outros caminhos de acesso não existem no mock |
+| R-02 | UI confirma pedido sem gravação ou com valor errado | 3 × 2 = 6 | UI → GET API → SELECT SQL no mesmo ID; 12.990 centavos | Sem pagamento ou estoque |
+| R-03 | Contrato muda sem erro HTTP evidente | 2 × 2 = 4 | Zod no POST e GET; status 200/201/400 | Schema de catálogo não usa Zod |
+| R-04 | Requisição anônima grava pedido | 3 × 2 = 6 | 401 no carrinho/pedido e contagem SQL de prova inalterada | GET sem token não tem assert dedicado |
+| R-05 | Texto de entrada altera consulta SQL | 3 × 1 = 3 | Login com fragmento SQL → 401; busca vazia; catálogo íntegro | Amostra básica, não campanha ampla de injeção |
+| R-06 | Carga causa latência ou falha | 2 × 2 = 4 | k6 até 50 VUs, p95 < 500 ms, HTTP < 1%, checks > 99% | Runner e banco locais não simulam arquitetura distribuída |
+| R-07 | Checkout diverge entre navegadores | 2 × 2 = 4 | Mesmo E2E em Chromium, Firefox e WebKit | Sem dispositivos físicos ou acessibilidade completa |
+| R-08 | CI não reproduz o gate local | 2 × 2 = 4 | `npm ci`, Node 24, browsers, typecheck, Playwright, k6 e upload | Diferença de desempenho entre máquinas é esperada |
 
-## Desenho dos testes
+## Níveis, técnicas e oráculos
 
-| Nível | Técnica | Oráculo |
+| Nível | Seleção dos casos | Oráculo e evidência |
 | --- | --- | --- |
-| UI E2E | Page Object Model e seletores por papel/label | Navegação, carrinho, confirmação e ID do pedido |
-| API/contrato | Requisição HTTP real ao mock + Zod | Status 200/201/400, JSON e campos tipados |
-| Persistência | SQL em conexão separada | `owner`, `status='APROVADO'`, `totalCents=12990` |
-| Segurança | Particionamento de autorização e entrada adversarial | 401/404, sem bypass de login ou busca |
-| Performance | Ramping VUs e thresholds k6 | p95 < 500 ms; erro HTTP < 1%; checks > 99% |
+| Jornada UI | Caminho feliz em três motores; Page Objects e elementos visíveis | Carrinho com 1 item, total exibido, ID de confirmação, API e SQL coerentes |
+| API e contrato | Partições válida/inválida; alteração adversarial de total | HTTP 200/201/400, `OrderSchema` Zod, 12.990 centavos persistidos |
+| Segurança | Ausência de token, acesso horizontal, entrada com fragmento SQL | 401 sem escrita, 404 para Beta/200 para Alfa, busca e catálogo íntegros |
+| Persistência | Consulta em conexão SQLite separada da aplicação | Mesmo ID, titular, `APROVADO`, total 12990 |
+| Performance | Rampa 0→50 VUs em 30 s, 10 s estáveis, 10 s de descida | Thresholds k6 marcados `endpoint:order` e check de 201 |
 
-Os testes de API/segurança rodam uma vez; o teste de UI roda em três navegadores. Pedidos são criados por teste e identificados pelo ID retornado, sem depender de uma ordem de execução. Capturas de falha e traces são produzidos pelo Playwright; relatório HTML e resumo k6 são gerados pela CI.
+São **oito testes lógicos e dez execuções Playwright**: quatro API, três segurança e uma jornada UI repetida em três navegadores. O objetivo da suíte é dar sinais claros sobre regras importantes, não maximizar contagem. Os testes podem rodar em paralelo; cada pedido é localizado pelo ID retornado. Contextos de navegador são isolados, mas o arquivo SQLite é compartilhado dentro da suíte funcional. A independência é verificada por dados e IDs, não por limpeza global entre testes.
+
+A [política de massa e oráculos](dados-e-oraculos.md) registra contas, produtos, preço, consulta SQL e isolamento da carga.
+
+## Sequência do gate
+
+1. Preparar Node, dependências e browsers conforme [pré-requisitos](pre-requisitos.md); verificar `/health`.
+2. Rodar `npm run docs:check` e typecheck; links ou IDs BDD quebrados também impedem afirmar que o dossiê está pronto.
+3. Rodar Playwright completo. Uma falha de assert, browser, contrato, autorização ou SQL exige triagem; um retry verde na CI não apaga a necessidade de investigar intermitência.
+4. Rodar k6 de carga no banco e porta separados. O perfil smoke confirma preparo, mas não é aceite de performance.
+5. Publicar e conferir HTML/JSON; associar run, commit, ambiente e decisão. O [workflow](../../../../.github/workflows/e2e-pipeline.yml) executa os passos automatizados e publica artefatos mesmo após uma falha, quando arquivos estiverem disponíveis.
 
 ## Critérios de entrada e saída
 
-**Ready para testar:** Node 24+, lockfile resolvido por `npm ci`, navegadores disponíveis, mock local saudável em `/health`, massa sintética inicializada e porta livre. **Go:** typecheck sem erros, Playwright 100% verde, thresholds k6 verdes, defeitos críticos/altos abertos = 0, artefatos publicados. **No-Go:** qualquer falha de contrato, segurança, persistência, navegador ou threshold; indisponibilidade de artefato; teste não executado sem justificativa.
+**Entrada:** requisito e massa definidos; Node 24+; lockfile instalável; navegadores presentes; portas 4173/4174 livres; contas `.test`; mock saudável; k6 disponível para o gate de carga. Se uma dependência faltar, registre **bloqueio de ambiente**, não um falso defeito do produto.
 
-Quando um teste falha, o QA registra comando, ambiente, resultado esperado/obtido, evidência e impacto. Após a correção, executa primeiro o cenário que falhou, depois a regressão completa e atualiza o [parecer](release-decision.md).
+**Go deste case:** typecheck sem erros; 10/10 execuções Playwright verdes sem falha escondida; p95 < 500 ms, HTTP < 1% e checks > 99% no perfil de carga; nenhum defeito alto aberto no escopo; artefato da CI acessível; riscos residuais descritos. **No-Go:** falha em qualquer um desses critérios, evidência ausente ou teste obrigatório não executado. Um resultado de runner não prova capacidade de produção.
+
+## Registro e comunicação
+
+Uma falha deve conter commit, comando, ambiente, massa, esperado/obtido, frequência, impacto e evidência. QA e DEV acordam causa e critério de correção; QA retesta primeiro o cenário afetado, depois a regressão conforme risco. O [procedimento](defect-lifecycle.md), a [matriz](traceability.md) e o [parecer](release-decision.md) formam a trilha de decisão.
+
+## Cobertura residual conhecida
+
+Não há asserts específicos para quantidade 10/11, GET sem token, ID inexistente, inexistência de gravação em carrinho válido, sessão expirada ou formatação monetária `pt-BR`. A [matriz](traceability.md) marca a cobertura parcial; esses itens entram no backlog de uma próxima iteração e não são relatados como testes aprovados. A estratégia se apoia na recomendação de [isolamento e comportamento observável do Playwright](https://playwright.dev/docs/best-practices/).

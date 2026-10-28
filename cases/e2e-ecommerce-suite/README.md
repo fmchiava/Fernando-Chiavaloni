@@ -1,73 +1,57 @@
-# E-commerce E2E — dossiê de Quality Engineering
+# E-commerce E2E — case de Quality Engineering
 
 [![E-commerce E2E Quality Gate](https://github.com/fmchiava/sdet-portfolio/actions/workflows/e2e-pipeline.yml/badge.svg)](https://github.com/fmchiava/sdet-portfolio/actions/workflows/e2e-pipeline.yml)
 
-Este case demonstra como QA planeja, executa e comunica a qualidade de um fluxo de compra. Uma loja local de dados sintéticos oferece um alvo reproduzível; o foco são **testes Web UI, contratos REST, persistência SQL, segurança, performance e evidências auditáveis**.
+Este case mostra a avaliação de qualidade de uma jornada de compra com **Web UI, API REST, SQLite, segurança e k6**. A loja Node.js usa dados sintéticos e roda localmente; o foco do trabalho é definir regras testáveis, encontrar falhas, provar correções e sustentar um parecer com evidência verificável.
 
-## Avaliação em cinco minutos
+## Por onde começar
 
-1. [Plano de QA, riscos e critérios de aceite](docs/qa/test-strategy.md).
-2. [Matriz de rastreabilidade](docs/qa/traceability.md): requisito → risco → teste → evidência.
-3. [Relatório da execução local](docs/qa/evidence/execution.md) e [execuções da CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/e2e-pipeline.yml). Abra o artefato `e2e-ecommerce-evidence` de uma execução para ver Playwright HTML, traces de falhas e k6 HTML/JSON.
-4. [Defeito QA-001: IDOR, correção e reteste](docs/qa/defects/QA-001-idor.md) e [procedimento QA–DEV](docs/qa/defect-lifecycle.md).
-5. [Parecer técnico e Go/No-Go](docs/qa/release-decision.md).
-
-## Arquitetura sob teste
-
-```mermaid
-flowchart LR
-  PW[Playwright UI/API/segurança] --> UI[UI local: login, catálogo, checkout]
-  UI --> REST[API REST Node.js]
-  PW --> REST
-  K6[k6: pedidos] --> REST
-  REST --> DB[(SQLite: usuários, produtos, pedidos)]
-  PW --> DB
-```
-
-O servidor de apoio usa Node.js sem framework HTTP e banco SQLite em arquivo. Os preços são calculados no servidor em centavos; os testes consultam a API e o banco após a compra. O teste de carga usa outro arquivo SQLite e porta própria. Não há chamada a comércio ou serviço externo.
+1. [Descoberta e refinamento](docs/discovery/README.md): problema, levantamento, brainstorm, backlog e [decisões justificadas](docs/discovery/decisions/README.md).
+2. [Contexto, processo e requisitos](docs/qa/contexto-e-requisitos.md): o que “pedido aprovado” significa neste alvo.
+3. [Dossiê de QA](docs/qa/README.md): roteiro completo de estratégia, riscos, [BDD](docs/qa/bdd/README.md), [TDD](docs/qa/tdd.md), pré-requisitos e rastreabilidade.
+4. [QA-001: IDOR controlado](docs/qa/defects/QA-001-idor.md): falha, causa, correção e reteste com [saídas sanitizadas](docs/qa/evidence/README.md).
+5. [Execução observada](docs/qa/evidence/execution.md) e [parecer Go/No-Go](docs/qa/release-decision.md).
+6. [CI no `master`](https://github.com/fmchiava/sdet-portfolio/actions/runs/40561541646) e [artefato HTML/JSON](https://github.com/fmchiava/sdet-portfolio/actions/runs/40561541646/artifacts/12760268314).
 
 ## Cobertura executável
 
-| Camada | Verificação | Arquivo |
+| Camada | O que é verificado | Fonte |
 | --- | --- | --- |
-| Web UI | Login → catálogo → carrinho → checkout em Chromium, Firefox e WebKit | [`src/tests/e2e-purchase.spec.ts`](src/tests/e2e-purchase.spec.ts) |
-| API/contrato | HTTP 200/201/400, pedido e schema Zod | [`src/tests/api-contracts.spec.ts`](src/tests/api-contracts.spec.ts) |
-| Banco | Pedido `APROVADO`, titular e total de 12.990 centavos via SQL | [`src/db/database.ts`](src/db/database.ts) |
-| Segurança | Bearer ausente, IDOR entre usuários e entradas de SQL Injection | [`security/auth-security.spec.ts`](security/auth-security.spec.ts) |
-| Performance | Rampa até 50 VUs, p95 < 500 ms e falhas HTTP < 1% | [`performance/scenarios/order-load-test.js`](performance/scenarios/order-load-test.js) |
+| UI | Login → catálogo → carrinho → checkout em Chromium, Firefox e WebKit; confirmação comparada à API e ao SQL | [`e2e-purchase.spec.ts`](src/tests/e2e-purchase.spec.ts) |
+| API e contrato | HTTP 200/201/400, Zod, pedido válido/inválido e preço recalculado | [`api-contracts.spec.ts`](src/tests/api-contracts.spec.ts) |
+| Segurança | Bearer ausente sem escrita, IDOR entre Alfa/Beta, fragmento SQL em login/busca | [`auth-security.spec.ts`](security/auth-security.spec.ts) |
+| Performance | Rampa até 50 VUs, p95 < 500 ms, falhas HTTP < 1%, checks > 99% | [`order-load-test.js`](performance/scenarios/order-load-test.js) |
+| Pipeline | Instalação, typecheck, Playwright, k6 e upload de evidências | [Workflow da raiz](../../.github/workflows/e2e-pipeline.yml) |
 
-## Reproduzir localmente
+A suíte Playwright tem **oito cenários lógicos e dez execuções**: quatro API, três segurança e uma jornada UI em três navegadores. Os `.feature` documentam BDD, mas não são executados por um runner Cucumber. A [matriz](docs/qa/traceability.md) identifica cobertura parcial e riscos residuais; a existência de uma especificação não é contada como teste passado.
 
-Pré-requisitos: Node.js 24+, npm e [k6](https://grafana.com/docs/k6/latest/set-up/install-k6/) para performance. Execute na pasta deste case:
+## Reproduzir
 
-```bash
+Pré-requisitos: **Node.js 24+**, npm, browsers Playwright e **k6** para o teste de carga. Consulte o [guia completo](docs/qa/pre-requisitos.md) para Windows/Linux, portas, dados sintéticos e diagnóstico. Dentro desta pasta:
+
+```text
 npm ci
 npx playwright install chromium firefox webkit
+npm run docs:check
 npm run typecheck
 npm test
 npm run test:performance
 ```
 
-`npm test` sobe e encerra automaticamente o servidor Playwright. `npm run test:performance` sobe outra instância local, executa a carga e salva `performance/results/summary.html` e `.json`. Para inspecionar o relatório Playwright localmente, use `npm run report`. Um smoke de k6 pode ser executado com `PROFILE=smoke` no ambiente.
+`npm test` sobe o mock na porta 4173 e produz `playwright-report/`. `npm run test:performance` usa outra instância e banco na porta 4174 e produz `performance/results/summary.html` e `.json`. `npm run report` abre o HTML local. A CI publica os mesmos tipos de relatório por 30 dias. Nenhuma conta de comércio ou API externa é chamada.
 
-O `.env.example` documenta `BASE_URL`, `API_URL`, `DB_PATH`, `TEST_USER` e `TEST_PASS`; o arquivo `.env` é opcional e ignorado pelo Git. `BASE_URL` define a UI e a porta do servidor local; `API_URL` define o destino do cliente REST e deve apontar para a mesma instância neste teste E2E. As duas contas do mock são `qa.alfa@example.test` e `qa.beta@example.test`, ambas com senha **sintética** `SenhaDeTeste123!`. Os testes não precisam de credenciais reais.
-
-## Fluxo QA → DEV → reteste
+## Arquitetura e limites
 
 ```mermaid
 flowchart LR
-  A[Requisito e risco] --> B[Cenário automatizado]
-  B --> C{Resultado}
-  C -- Falha --> D[Defeito: passos, esperado, obtido, evidência]
-  D --> E[Triagem QA/DEV e causa raiz]
-  E --> F[Correção vinculada ao defeito]
-  F --> G[Reteste do cenário]
-  G --> H[Regressão e parecer]
-  C -- Passa --> H
+  A[Playwright UI/API/segurança] --> B[UI e REST Node.js]
+  C[k6] --> B
+  B --> D[(SQLite)]
+  A --> D
 ```
 
-O [QA-001](docs/qa/defects/QA-001-idor.md) usa **injeção controlada de falha** para provar que a suíte detecta um IDOR: o teste observou `200` quando o esperado era `404`; após restaurar a verificação de titularidade, passou. A interação QA–DEV do estudo de caso é simulada e identificada como tal. Os resultados de execução citados nos relatórios foram observados, não inventados.
+O servidor calcula preços em centavos e verifica o titular antes de devolver um pedido. O [desenho detalhado](docs/qa/arquitetura.md) mostra fluxo e fronteiras. “APROVADO” quer dizer pedido aceito pelo **mock**, sem pagamento ou entrega. O k6 mede este serviço e runner; seus números não predizem a capacidade de uma plataforma real.
 
-## Limites do case
+## Estado da documentação
 
-O servidor e os dados são sintéticos. O resultado de k6 caracteriza apenas esta máquina ou runner, com SQLite local e carga gerada no mesmo ambiente; não dimensiona um e-commerce real. O artefato da CI tem retenção de 30 dias; este dossiê mantém o resumo verificável e os comandos de reprodução no Git.
+Os números do [relatório](docs/qa/evidence/execution.md) pertencem às execuções identificadas por commit e data. A [revisão documental](docs/qa/revisao-documental.md) registra a checagem desta versão. A interação QA–DEV do QA-001 é uma simulação declarada; a falha vermelha, o reteste verde e as métricas indicadas são observações preservadas.
