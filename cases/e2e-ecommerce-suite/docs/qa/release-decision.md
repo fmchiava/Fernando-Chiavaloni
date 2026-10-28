@@ -1,6 +1,6 @@
 # Parecer técnico de qualidade — versão integrada
 
-**Data:** 27/10/2026. **Versão avaliada:** `master` no merge `041c4c3`. **Decisão:** **Go para apresentar este case sintético no portfólio**. Não se trata de autorização para operar uma loja real. A reescrita documental em branch local será apresentada para revisão antes de publicação.
+**Data:** 27/10/2026. **Versão avaliada:** `master` no merge `041c4c3`. **Decisão:** **Go para apresentar este case sintético no portfólio**. Não se trata de autorização para operar uma loja real. Este parecer é um snapshot da versão funcional; a [revisão documental](revisao-documental.md) registra a validação dos textos acrescentados depois.
 
 | Critério de saída definido na estratégia | Resultado | Base da decisão |
 | --- | --- | --- |

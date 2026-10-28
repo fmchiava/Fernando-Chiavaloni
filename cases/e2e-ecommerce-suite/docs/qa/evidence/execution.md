@@ -27,11 +27,17 @@ O resumo [JSON](local-performance/summary.json) e [HTML](local-performance/summa
 | [Python QA Tests](https://github.com/fmchiava/sdet-portfolio/actions/runs/40561541748) | **Success** em Python 3.11 e 3.12; no job 3.12, 33 passed |
 | [API Regression Tests](https://github.com/fmchiava/sdet-portfolio/actions/runs/40561542013) | **Success**, **24 passed (4.2s)** e relatório publicado no [GitHub Pages](https://fmchiava.github.io/sdet-portfolio/) |
 
-O p95 remoto muda conforme o runner e não precisa reproduzir o número local. O que deve se repetir é o atendimento aos thresholds definidos **antes** da medição. A documentação nesta branch local ainda não gerou uma nova execução remota; esses links identificam a versão funcional já integrada.
+O p95 remoto muda conforme o runner e não precisa reproduzir o número local. O que deve se repetir é o atendimento aos thresholds definidos **antes** da medição. Os links desta seção identificam a versão funcional integrada em 27/10; a publicação documental posterior exige seu próprio gate remoto.
 
 ## Verificação local da revisão documental
 
-Na branch local `codex/e2e-qa-documentation`, `npm ci` terminou com 0 vulnerabilidades reportadas; `npm run docs:check` verificou 19 arquivos Markdown, 8 cenários BDD e seus links; `npm run typecheck` saiu com código 0; `npm test` registrou **10 passed (14.6s)**. `npm run test:performance` executou **1.516 iterações/pedidos**, com p95 **12,85 ms**, falhas HTTP **0%**, checks **100%** e exit 0. O [JSON](documentation-review-performance/summary.json) e [HTML](documentation-review-performance/summary.html) desta carga foram preservados sem credenciais. Essa verificação é **local**; a versão documental ainda não foi enviada para uma CI remota.
+Na revisão local inicial da branch `codex/e2e-qa-documentation`, `npm ci` terminou com 0 vulnerabilidades reportadas; `npm run docs:check` verificou 19 arquivos Markdown, 8 cenários BDD e seus links; `npm run typecheck` saiu com código 0; `npm test` registrou **10 passed (14.6s)**. `npm run test:performance` executou **1.516 iterações/pedidos**, com p95 **12,85 ms**, falhas HTTP **0%**, checks **100%** e exit 0. O [JSON](documentation-review-performance/summary.json) e [HTML](documentation-review-performance/summary.html) desta carga foram preservados sem credenciais. Esses resultados pertencem à verificação **local** daquela revisão, antes da CI da publicação.
+
+## Gate local antes da publicação documental (28/10/2026)
+
+Na branch `codex/e2e-qa-documentation`, `npm run docs:check` saiu com código 0 e verificou **31 arquivos Markdown, 8 cenários BDD e links locais**. `npm run typecheck` saiu com código 0. `npm test` registrou **10 passed (20.3s)**, com API, segurança e UI em Chromium, Firefox e WebKit. O perfil completo `npm run test:performance` concluiu com **1.504 pedidos**, p95 de criação **36,53 ms**, falhas HTTP **0%** e checks **100%**; todos os thresholds passaram e o processo saiu com código 0. O [JSON](publication-performance/summary.json) e [HTML](publication-performance/summary.html) foram versionados sem token ou dado real.
+
+Esses números são **locais**, do mock e da máquina dessa execução. O resultado do GitHub Actions deve ser identificado separadamente pelo run da PR/merge, pois usa outro runner.
 
 ## Falha controlada e reteste
 

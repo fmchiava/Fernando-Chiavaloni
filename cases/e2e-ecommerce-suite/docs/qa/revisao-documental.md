@@ -2,7 +2,7 @@
 
 ## Identificação e escopo
 
-**Data da revisão:** 27/10/2026. **Base funcional:** `master` no merge `041c4c3`. **Área revisada:** README do case, pontos de entrada no README do monorepo, documentos de QA, especificações BDD, perfil de carga e workflow que valida os documentos. **Estado:** rascunho salvo em branch local para apresentação antes de qualquer publicação remota.
+**Data da revisão:** 27/10/2026. **Base funcional:** `master` no merge `041c4c3`. **Área revisada:** README do case, pontos de entrada no README do monorepo, documentos de QA, especificações BDD, perfil de carga e workflow que valida os documentos. **Estado em 27/10:** rascunho salvo em branch local para apresentação antes de publicação remota.
 
 A revisão toma o código como fonte para rotas, regras, dados e comandos; toma os logs sanitizados e os runs da CI como fonte para resultados. Os documentos metodológicos da pasta `docs/superpowers/` preservam o plano de trabalho e não substituem o dossiê de QA.
 
@@ -41,7 +41,7 @@ O verificador automatiza estrutura e links, **não** faz interpretação semânt
 
 ## Decisão de publicação
 
-**Pendente de apresentação ao proprietário do portfólio.** A documentação permanece apenas na branch local nesta etapa. Depois da revisão do usuário, uma publicação remota exigirá novo gate de CI sobre o commit publicado.
+Em 27/10/2026, a publicação estava pendente de apresentação ao proprietário do portfólio. Em 28/10/2026, ele solicitou a publicação integral da documentação no GitHub. O gate de CI da versão publicada deve ser consultado pelo commit e run correspondentes; os runs históricos acima não substituem esse gate.
 
 ## Complemento: descoberta e decisões (27/10/2026)
 
@@ -57,4 +57,18 @@ O verificador documental passou a inspecionar todos os Markdown de `docs/`, incl
 | Revisão factual | Rotas, valores, dados, configurações e limites confrontados com servidor, banco, schemas, testes e k6. |
 | Busca de segredos nos arquivos de descoberta | Nenhum token, caminho pessoal ou senha de teste copiada para a nova trilha. |
 
-Não foi repetido o perfil completo de k6 nesta ampliação, pois a implementação e o cenário de carga não mudaram; a execução anterior continua identificada acima. O estado continua **local para apresentação**.
+O perfil completo de k6 não foi repetido naquela ampliação, pois a implementação e o cenário de carga não mudaram; a execução anterior continua identificada acima.
+
+## Gate de publicação local (28/10/2026)
+
+Após o pedido explícito de publicação, os textos que diziam “pendente” foram reescritos como **histórico datado**. O índice do monorepo passou a apontar também para descoberta e ADRs; nenhum resultado anterior foi atribuído ao novo commit.
+
+| Checagem | Resultado |
+| --- | --- |
+| `npm run docs:check` | Exit 0; 31 Markdown, 8 cenários BDD e links locais verificados |
+| `npm run typecheck` | Exit 0 |
+| `npm test` | 10 passed (20,3s) |
+| `npm run test:performance` | Exit 0; 1.504 pedidos, p95 36,53 ms, falhas 0%, checks 100%; [JSON](evidence/publication-performance/summary.json) e [HTML](evidence/publication-performance/summary.html) |
+| Revisão de publicação | Saídas QA-001 sanitizadas, resumos de carga, diagramas, regras e ADRs presentes no Git; sem padrão de segredo ou caminho pessoal encontrado nos arquivos de documentação |
+
+O gate remoto desta publicação será identificado pelo commit/run do GitHub Actions. O registro local acima não o substitui.

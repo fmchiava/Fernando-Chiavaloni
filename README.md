@@ -8,7 +8,7 @@ Portfólio de **Quality Engineering e SDET** com casos de automação de testes,
 
 | Case | Engenharia de qualidade | Estado |
 | --- | --- | --- |
-| [E-commerce E2E](cases/e2e-ecommerce-suite/) | Web UI, API REST, contratos Zod, SQLite, segurança, k6, BDD/TDD e [dossiê QA](cases/e2e-ecommerce-suite/docs/qa/README.md) | **10 execuções Playwright** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/e2e-pipeline.yml) |
+| [E-commerce E2E](cases/e2e-ecommerce-suite/) | Web UI, API REST, contratos Zod, SQLite, segurança, k6, [descoberta e decisões](cases/e2e-ecommerce-suite/docs/discovery/README.md), BDD/TDD e [dossiê QA](cases/e2e-ecommerce-suite/docs/qa/README.md) | **10 execuções Playwright** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/e2e-pipeline.yml) |
 | [Conciliação de sinistros com RPA](cases/rpa-conciliacao-sinistros/) | UI, API REST, CSV, SQLite, exceções, rastreabilidade e arquitetura A360 | **18 testes Python** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/python-tests.yml) |
 | [Testes de API com Playwright](cases/testes-api-playwright/) | Contratos Zod, autenticação, mocks, dados de teste e relatório HTML | **24 testes Playwright** · [CI](https://github.com/fmchiava/sdet-portfolio/actions/workflows/api-tests.yml) |
 | [Controle de plataformas elevatórias](cases/controle-plataformas/) | Problema, regras e critérios para iniciar o desenvolvimento | **Em planejamento** |
@@ -38,6 +38,7 @@ Os testes Python usam `unittest.TestCase`, coletados pelo `pytest` na raiz. Os [
 
 - [Matriz de testes do laboratório](portfolio/matriz-de-testes.md)
 - [Dossiê de QA do E-commerce E2E](cases/e2e-ecommerce-suite/docs/qa/README.md)
+- [Descoberta, refinamento e ADRs do E-commerce E2E](cases/e2e-ecommerce-suite/docs/discovery/README.md)
 - [Progresso de aprendizado](aprendizado/progresso.md)
 - [Origem e migração dos cases](docs/migracao.md)
 

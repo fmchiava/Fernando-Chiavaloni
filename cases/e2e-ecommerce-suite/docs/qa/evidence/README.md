@@ -9,6 +9,7 @@ Uma evidência útil permite responder **qual versão, ambiente, dado, comando, 
 | [QA-001 verde](QA-001-green-sanitized.txt) | Reteste isolado após restauração | Localizar `1 passed` |
 | [Resumo k6 JSON](local-performance/summary.json) e [HTML](local-performance/summary.html) | Execução local de carga | Conferir p95, taxa de falha e checks |
 | [Resumo k6 da revisão documental](documentation-review-performance/summary.json) e [HTML](documentation-review-performance/summary.html) | Nova execução local, preservada antes da publicação documental | Conferir 1.516 checks, p95 12,85 ms e thresholds |
+| [Resumo k6 da publicação](publication-performance/summary.json) e [HTML](publication-performance/summary.html) | Gate local em 28/10/2026, antes do envio ao GitHub | Conferir 1.504 pedidos, p95 36,53 ms e thresholds |
 | [Artefato da CI no master](https://github.com/fmchiava/sdet-portfolio/actions/runs/40561541646/artifacts/12760268314) | Workflow no commit `041c4c3` | Baixar Playwright HTML e k6 HTML/JSON |
 
 O workflow configura **30 dias de retenção** para o artefato. O resumo versionado e os comandos de reprodução continuam disponíveis depois do vencimento do download. Relatórios verdes não contêm necessariamente screenshot ou trace: a configuração retém esses arquivos **somente em falhas**. O trace do experimento QA-001 foi gerado localmente, mas não foi versionado; sua evidência permanente é a saída sanitizada.
